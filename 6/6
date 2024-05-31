@@ -1,0 +1,48 @@
+#include <iostream>
+#include <fstream>
+using namespace std;
+
+int countIslands(char grid[100][100], int rows, int cols, int i, int j) {
+    if (grid[i][j] != '#') {
+        return 0;
+    }
+
+    grid[i][j] = '.';
+
+    countIslands(grid, rows, cols, i + 1, j);
+    countIslands(grid, rows, cols, i - 1, j);
+    countIslands(grid, rows, cols, i, j + 1);
+    countIslands(grid, rows, cols, i, j - 1);
+
+    return 1;
+}
+
+int main() {
+    ifstream inputFile("input.txt");
+    
+    int rows, cols;
+    inputFile >> rows >> cols;
+
+    char grid[100][100];
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            inputFile >> grid[i][j];
+        }
+    }
+    
+    inputFile.close();
+
+    int count = 0;
+    for (int i = 0; i < rows; ++i) {
+        for (int j = 0; j < cols; ++j) {
+            if (grid[i][j] == '#') {
+                count += countIslands(grid, rows, cols, i, j);
+            }
+        }
+    }
+
+    cout << count << endl;
+
+    return 0;
+}
+
